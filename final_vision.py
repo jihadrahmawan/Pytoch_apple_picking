@@ -239,10 +239,6 @@ if __name__ == "__main__":
                 if get_slices:
                     cv2.circle(frame, (gcx,gcy), 10, (0,165,255), -1)
                 display = cv2.resize(frame , (int(width*0.75), int(height*0.75)))
-
-                #print ("CX = ", gcx)
-                #print ("CY = ", gcy)
-                
                 tensor_img = img_transform_tensor (crop_img, color_mean, color_std, square_px)
                 vis_frame, mask, sums =visualization(net, crop_img, tensor_img, crop_size, crop_size, 0.5,palate_mat,device)
                 Save_img = vis_frame.copy()
@@ -260,42 +256,11 @@ if __name__ == "__main__":
                 cv2.putText(vis_frame, detects, (680, 25), font, 0.8, (255,255,255), 1, cv2.LINE_AA)
                 cv2.putText(vis_frame, "Inference", (10, 25), font, 0.8, (255,255,255), 1, cv2.LINE_AA)
                 display_ml = cv2.resize(vis_frame , (int(crop_size*0.75), int(crop_size*0.75)))
-                #string_message = "{:04d}{:d}{:d}".format(counter_shoot,detect_quality,conveyor)
-                #send_bridge.sendto(bytes(string_message, 'utf-8'), ("127.0.0.1", 1111))
                 cv2.imshow('Segmentation', display_ml)
 
                
                 key = cv2.waitKey(1)
-                '''
-                prev_frame_time_ml=time.time()
-                if key == ord('s') or key == ord ('S') or counter_shoot != last_shoot_counter:
-                    #detect_counter+=1
-                    tensor_img = img_transform_tensor (crop_img, color_mean, color_std, square_px)
-                    vis_frame, mask, sums =visualization(net, crop_img, tensor_img, crop_size, crop_size, 0.5,palate_mat,device)
-                    Save_img = vis_frame.copy()
-                    if (sums != 0):
-                        detect_quality = 1
-                    else:
-                        detect_quality = 0
-
-                    new_frame_time_ml = time.time()
-                    timer = round ((new_frame_time_ml-prev_frame_time_ml)*1000,3)
-                    times = "| Time Process = " + str (timer) + " ms"
-                    detects = "| Slices Count = " + str (counter_shoot) 
-                    cv2.rectangle(vis_frame, (0, 0), (1079, 35), (184,53,255), -1)
-                    cv2.putText(vis_frame, times, (200, 25), font, 0.8, (255,255,255), 1, cv2.LINE_AA)
-                    cv2.putText(vis_frame, detects, (680, 25), font, 0.8, (255,255,255), 1, cv2.LINE_AA)
-                    cv2.putText(vis_frame, "Inference", (10, 25), font, 0.8, (255,255,255), 1, cv2.LINE_AA)
-                    display_ml = cv2.resize(vis_frame , (int(crop_size*0.75), int(crop_size*0.75)))
-                    string_message = "{:04d}{:d}{:d}".format(counter_shoot,detect_quality,conveyor)
-                    send_bridge.sendto(bytes(string_message, 'utf-8'), ("127.0.0.1", 1111))
-                    cv2.imshow('Segmentation', display_ml)
-                    nows = datetime.now()
-                    date = nows.strftime("%d%m%Y%H%M%S")
-                    cv2.imwrite('./data_log/inference_'+date+'_'+str(counter_shoot)+'.png', Save_img)
-                    cv2.imwrite('./data_log/groundTht_'+date+'_'+str(counter_shoot)+'.png', save_crop)
-                '''
-                
+              
                 if key == ord ("q") or key == ord ("Q"):
                     break
 
@@ -317,34 +282,20 @@ if __name__ == "__main__":
                         conveyor=0
                         string_message = "{:04d}{:d}{:d}".format(counter_shoot,detect_quality,0)
                         send_bridge.sendto(bytes(string_message, 'utf-8'), ("127.0.0.1", 1111))
-
-               
-                
-                
-              
                     
                 cv2.imshow('Camera', display)
-                #cv2.imshow('AutoTake', masks)
-                #cv2.imshow('Camera 2', vis2)
                 print ("Detect count =", counter_shoot)
                 print ("Detect Qlty  =", detect_quality)
                 print ("Auto Mode    =", auto_mode)
                 if (update_fps>=5):
                     fps = round (1/(new_frame_time-prev_frame_time),3)
                     update_fps=0
-                
-                
+
                 prev_frame_time = new_frame_time
                 last_shoot_counter = counter_shoot
                 last_mode = auto_mode
-
-            
     finally:
         cv2.destroyAllWindows()
         cap.release()
         send_bridge.close()
-        
-
-            
-        
         
