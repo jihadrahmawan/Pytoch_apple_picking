@@ -73,35 +73,7 @@ def visualization (model, image_in,  tensor_img, frame_height, frame_width, alph
         text = 'defect'
         cv2.drawContours(image_in, ctr, i, (0,0,128), 3)
         cv2.drawContours(over, ctr, i,(0,0,128), -1)
-        '''
-        cv2.drawContours(cimg, ctr, i, color=255, thickness=-1)
-        pts = np.where(cimg == 255)
-        b, g, r = open_cv_image[pts[0], pts[1]][0]
-        if (b == 0 and g == 128 and r ==  128):
-            text = 'Skin'
-            cv2.drawContours(image_in, ctr, i, (0,128,128), 3)
-            cv2.drawContours(over, ctr, i, (0,128,128), -1)
-        if (b == 0 and g == 128 and r == 0):
-            #skin = True
-            text = 'Core'
-            cv2.drawContours(image_in, ctr, i, (0,128,0), 3)
-            cv2.drawContours(over, ctr, i, (0,128,0), -1)
-        if (b == 0 and g == 0 and r == 128):
-            #skin = False
-            text = 'Brush'
-            cv2.drawContours(image_in, ctr, i, (0,0,128), 3)
-            cv2.drawContours(over, ctr, i, (184,53,255), -1)
-        if (b == 128 and g == 0 and r == 0):
-            #skin = False
-            text = 'Defect'
-            cv2.drawContours(image_in, ctr, i, (128,0,0), 3)
-            cv2.drawContours(over, ctr, i, (128,0,0), -1)
-        
-            #text = 'Unknown'
-        '''
-        # [0 128 128] = yellow # core
-        # [0 128 0] = gren # skin
-        # [0 0 128] = red #push
+  
         M = cv2.moments(c)
         ax = M['m10']
         ay = M['m01']
@@ -110,7 +82,6 @@ def visualization (model, image_in,  tensor_img, frame_height, frame_width, alph
         if ax != 0 and ay != 0 and az != 0:
             cx = int (ax/az)
             cy = int (ay/az)
-            #cv2.circle(image_in, (cx,cy), 4, (255,255,255), -1)
             data_x = 'X= '+str(cx)
             data_y = 'Y= '+str(cy)
             cv2.putText(image_in, text, (cx, cy), font, 0.6, (255,255,255), 2, cv2.LINE_AA)
@@ -118,19 +89,9 @@ def visualization (model, image_in,  tensor_img, frame_height, frame_width, alph
             cv2.putText(image_in, data_y, (cx, cy+25), font, 0.4, (255,255,255), 1, cv2.LINE_AA)
             area = cv2.contourArea(c)
             print (area)
-            #if cy <= 420:
-                
-            #print ("POS X =", cx)
-            #print ("POS Y =", cy)
-            #color = mask[cx, cy]
-            #print ("B", color)
         else:
             continue
-
-        
-   
     outimg = cv2.addWeighted(over, alpha, image_in, 1 - alpha, 0)
-    
     return outimg, mask, jumlah
 
 def callback(x):
