@@ -4,7 +4,6 @@ import serial
 import time
 import pydobot
 import socket
-import cv2
 import keyboard
 
 def motor_triger (device, state, var):
