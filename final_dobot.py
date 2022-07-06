@@ -82,8 +82,6 @@ if __name__ == '__main__':
             else:
 
                 print ("Pytorch is Offline, Waiting...")
-            
-            
 
             if detect != last_detect:
                 array_entry.append(quality)
@@ -110,17 +108,6 @@ if __name__ == '__main__':
                         device.motor(0, 0, 2000)
                     if start_motor2 > 5:
                         start_motor2 = 6
-                '''
-                if start_motor == 2:
-                    device.motor(0, 1, 2000)
-                if start_motor > 5:
-                    start_motor = 6
-                    print ("Conveyor Handling ON")
-                '''
-                    
-
-                    
-
 
 
                 if (proxy == 0 and pick_ready == True):
@@ -163,64 +150,10 @@ if __name__ == '__main__':
                 print ("PICKING      = ", new_array)
                 print ("conveyor     = ", conveyor)
 
-            #print ("PROXY SWITCH = ", proxy)
            
             last_detect = detect
             last_conveyor = conveyor
 
-                    
-
-
-
-            '''
-            if data:
-                wait_ready += 1
-                if wait_ready == 50 :
-                    device.motor(0, 1, 2000)
-                if wait_ready>=52:
-                    wait_ready = 53
-                    proxy = int (data)
-
-                    if (proxy == 0 and pick_ready == True):
-                        motor_disactive = 0
-                        motor_active+=1
-                        if (motor_active == 2):
-                            device.grip(False)
-                            device.motor(0, 0, 2000)
-                            device.speed(50,80)
-                            device.move_to(243, -5, 135, 7.6, 1, False)
-                            
-                            device.move_to(243, -5, 125, 7.6, 1, False)
-                            device.grip(True)
-                            device.wait(500)
-                            device.move_to(243, -5, 135, 7.6, 1, False)
-                            device.speed(200,180)
-
-                            #p1
-                            device.move_to(-10, -240, 138,-83 , 0, False)
-                            device.grip(False)
-                            device.wait(500)
-                            device.move_to(243, -5, 135, 7.6, 1, False)
-                            motor_active = 3
-                            pick_ready = False
-
-                    else:
-                        #x,y,z,r, j1,j2,j3,j4 = device.pose()
-                        
-
-                        motor_active = 0 
-                        motor_disactive += 1
-                        if motor_disactive == 1700:
-                            pick_ready = True
-                            device.suck(False)
-                            device.motor(0, 1, 2000)
-                            motor_disactive = 1800
-
-
-
-
-                    print ("PROXY SWITCH = ", proxy)
-            '''
     
     finally:
         device.motor(0, 0, 0)
